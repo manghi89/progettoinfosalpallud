@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int R=10;
-const int C=30;
+
 void stampamenu() {
     cout << "*************************************************\n";
     cout << "* 1 - Carica dati da file                       *\n";

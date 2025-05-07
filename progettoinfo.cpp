@@ -4,13 +4,15 @@ const int R=10;
 const int C=30;
 void stampamenu() {
     cout << "*************************************************\n";
-    cout << "* I - Carica i dati                             *\n";
-    cout << "* P - Stampa dati                               *\n";
-    cout << "* M - Indice giorno piu' piovoso                *\n";
-    cout << "* Z - Stampa indici delle citta' senza pioggia  *\n";
-    cout << "* A - Media di pioggia per citta'               *\n";
-    cout << "* H - Citta' con il totale di pioggia pia' alta *\n";
-    cout << "*                                               *\n";
+    cout << "* 1 - Carica dati da file                       *\n";
+    cout << "* 2 - carica corsi di uno studente (matricola)  *\n";
+    cout << "* 3 - carica corsi di uno studente (cognome)    *\n";
+    cout << "* 4 - elenca studenti iscritti al corso         *\n";
+    cout << "* 5 - numero di studenti per corso              *\n";
+    cout << "* 6 - numero di studenti per materia            *\n";
+    cout << "* 7 - cerca materia per descrizione             *\n";
+    cout << "* 8 - inserisci nuovo studente                  *\n";
+    cout << "* 9 - salva i dati su file                      *\n";
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
@@ -27,30 +29,43 @@ int main() {
 
         switch (ch) {
 
-            case 'I':
+            case '1':
 
                 break;
 
-            case 'P':
+            case '2':
 
                 break;
 
-            case 'M':
+            case '3':
 
                 break;
 
-            case 'Z':
+            case '4':
 
                 break;
 
-            case 'A':
+            case '5':
 
                 break;
 
-            case 'H':
+            case '6':
                 break;
 
-            case 'X':
+            case '7':
+
+                break;
+
+            case '8':
+
+                break;
+
+            case '9':
+
+                break;
+
+
+            case 'x':
                 finito = true;
                 break;
 

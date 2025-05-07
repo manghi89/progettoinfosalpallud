@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+const int R=10;
+const int C=30;
 void stampamenu() {
     cout << "*************************************************\n";
     cout << "* 1 - Carica dati da file                       *\n";
@@ -15,23 +16,54 @@ void stampamenu() {
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
+struct corsi{
+    string cod,des,codmat,desmat,matric,cogn,nome;
+
+
+
+};
+
 
 
 int main() {
 
+
     bool finito = false;
     char ch;
+    vector<corsi> x;
+
+
+
+
 
     while (!finito) {
         stampamenu();
         cin >> ch;
 
-        switch (ch) {
+        switch (ch){
 
-            case '1':
+            case '1':{
+                           string labels;
+                           corsi y;
+                           ifstream fin("corsi_studenti.csv");
+                           if(!fin) cout<<"Bombvardilo crocodilo"<<endl;
+                           getline(fin,labels);
+                           cout<<labels<<endl;
+                           while(!fin.eof()){
+                               getline(fin,y.cod,',');
+                               if(y.cod=="")break;
+                               getline(fin,y.des,',');
+                               getline(fin,y.codmat,',');
+                               getline(fin,y.desmat,',');
+                               getline(fin,y.matric,',');
+                               getline(fin,y.cogn,',');
+                               getline(fin,y.nome);
+
+                               cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
+                               }
 
                 break;
-
+            }
             case '2':
 
                 break;
@@ -64,7 +96,7 @@ int main() {
                 break;
 
 
-            case 'x':
+            case 'X':
                 finito = true;
                 break;
 

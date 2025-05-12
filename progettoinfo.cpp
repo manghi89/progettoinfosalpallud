@@ -16,7 +16,7 @@ void stampamenu() {
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
-struct corsi{
+struct corso{
     string cod,des,codmat,desmat,matric,cogn,nome;
 
 
@@ -30,12 +30,7 @@ int main() {
 
     bool finito = false;
     char ch;
-    vector<corsi> x;
-
-
-
-
-
+    vector<corso> x;
     while (!finito) {
         stampamenu();
         cin >> ch;
@@ -44,22 +39,27 @@ int main() {
 
             case '1':{
                            string labels;
-                           corsi y;
+                           int i=0;
+                           corso y;
                            ifstream fin("corsi_studenti.csv");
-                           if(!fin) cout<<"Bombvardilo crocodilo"<<endl;
+                           if(!fin) cout<<"file non trovato"<<endl;
                            getline(fin,labels);
                            cout<<labels<<endl;
                            while(!fin.eof()){
-                               getline(fin,y.cod,',');
-                               if(y.cod=="")break;
-                               getline(fin,y.des,',');
-                               getline(fin,y.codmat,',');
-                               getline(fin,y.desmat,',');
-                               getline(fin,y.matric,',');
-                               getline(fin,y.cogn,',');
-                               getline(fin,y.nome);
+                                       getline(fin,y.cod,',');
+                                       if(y.cod=="")break;
+                                       getline(fin,y.des,',');
+                                       getline(fin,y.codmat,',');
+                                       getline(fin,y.desmat,',');
+                                       getline(fin,y.matric,',');
+                                       getline(fin,y.cogn,',');
+                                       getline(fin,y.nome);
 
-                               cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
+                              // cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
+                                       x.push_back(y);
+                                       cout<<x[i].cod<<"   "<<x[i].des<<"   "<<x[i].codmat<<"   "<<x[i].desmat<<"   "<<x[i].matric<<"   "<<x[i].cogn<<"   "<<x[i].nome<<endl;
+                                       i++;
+
                                }
 
                 break;

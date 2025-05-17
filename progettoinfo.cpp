@@ -16,8 +16,20 @@ void stampamenu() {
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
+struct studente{
+    string nome,cogn,matric,cod;
+
+
+
+};
+struct materia{
+    string codmat,desmat,cod;
+
+
+
+};
 struct corso{
-    string cod,des,codmat,desmat,matric,cogn,nome;
+    string cod,des;
 
 
 
@@ -25,11 +37,12 @@ struct corso{
 
 
 
+
 int main() {
 
-
-    bool finito = false;
     char ch;
+    bool finito;
+    map<string,corso> cmatricola;
     vector<corso> x;
     while (!finito) {
         stampamenu();
@@ -38,29 +51,29 @@ int main() {
         switch (ch){
 
             case '1':{
-                           string labels;
-                           int i=0;
-                           corso y;
-                           ifstream fin("corsi_studenti.csv");
-                           if(!fin) cout<<"file non trovato"<<endl;
-                           getline(fin,labels);
-                           cout<<labels<<endl;
-                           while(!fin.eof()){
-                                       getline(fin,y.cod,',');
-                                       if(y.cod=="")break;
-                                       getline(fin,y.des,',');
-                                       getline(fin,y.codmat,',');
-                                       getline(fin,y.desmat,',');
-                                       getline(fin,y.matric,',');
-                                       getline(fin,y.cogn,',');
-                                       getline(fin,y.nome);
-
-                              // cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
-                                       x.push_back(y);
-                                       cout<<x[i].cod<<"   "<<x[i].des<<"   "<<x[i].codmat<<"   "<<x[i].desmat<<"   "<<x[i].matric<<"   "<<x[i].cogn<<"   "<<x[i].nome<<endl;
-                                       i++;
-
-                               }
+//                           string labels;
+//                           int i=0;
+//                           corso y;
+//                           ifstream fin("corsi_studenti.csv");
+//                           if(!fin) cout<<"file non trovato"<<endl;
+//                           getline(fin,labels);
+//                           cout<<labels<<endl;
+//                           while(!fin.eof()){
+//                                       getline(fin,y.cod,',');
+//                                       if(y.cod=="")break;
+//                                       getline(fin,y.des,',');
+////                                       getline(fin,y.codmat,',');
+////                                       getline(fin,y.desmat,',');
+////                                       getline(fin,y.matric,',');
+////                                       getline(fin,y.cogn,',');
+////                                       getline(fin,y.nome);
+////
+////                              // cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
+////                                       x.push_back(y);
+////                                       cout<<x[i].cod<<"   "<<x[i].des<<"   "<<x[i].codmat<<"   "<<x[i].desmat<<"   "<<x[i].matric<<"   "<<x[i].cogn<<"   "<<x[i].nome<<endl;
+////                                       i++;
+////
+////                               }
 
                 break;
             }

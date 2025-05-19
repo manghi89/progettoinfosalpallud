@@ -43,6 +43,8 @@ int main() {
     char ch;
     bool finito;
     map<string,corso> cmatricola;
+    map<string,corso> corsi;
+    map<string, vector<studente>  > studenti_2;
     vector<corso> x;
     while (!finito) {
         stampamenu();
@@ -51,38 +53,50 @@ int main() {
         switch (ch){
 
             case '1':{
-//                           string labels;
-//                           int i=0;
-//                           corso y;
-//                           ifstream fin("corsi_studenti.csv");
-//                           if(!fin) cout<<"file non trovato"<<endl;
-//                           getline(fin,labels);
-//                           cout<<labels<<endl;
-//                           while(!fin.eof()){
-//                                       getline(fin,y.cod,',');
-//                                       if(y.cod=="")break;
-//                                       getline(fin,y.des,',');
-////                                       getline(fin,y.codmat,',');
-////                                       getline(fin,y.desmat,',');
-////                                       getline(fin,y.matric,',');
-////                                       getline(fin,y.cogn,',');
-////                                       getline(fin,y.nome);
-////
-////                              // cout<<y.cod<<"   "<<y.des<<"   "<<y.codmat<<"   "<<y.desmat<<"   "<<y.matric<<"   "<<y.cogn<<"   "<<y.nome<<endl;
-////                                       x.push_back(y);
-////                                       cout<<x[i].cod<<"   "<<x[i].des<<"   "<<x[i].codmat<<"   "<<x[i].desmat<<"   "<<x[i].matric<<"   "<<x[i].cogn<<"   "<<x[i].nome<<endl;
-////                                       i++;
-////
-////                               }
+                           string labels, codice, descrizionec, codicem,descrizionem,matricola,cognome,nnome;
+                           int i=0;
+                           corso y;
+                           ifstream fin("corsi_studenti.csv");
+                           if(!fin) cout<<"file non trovato"<<endl;
+                           getline(fin,labels);
+                           cout<<labels<<endl;
+                           while(!fin.eof()){
+                                       getline(fin,codice,',');
+                                       if(codice=="")break;
+                                       getline(fin,descrizionec,',');
+                                       getline(fin,codicem,',');
+                                       getline(fin,descrizionem,',');
+                                       getline(fin,matricola,',');
+                                       getline(fin,cognome,',');
+                                       getline(fin,nnome);
+
+                                       corso c {codice, descrizionec};
+
+                                       // corso per studente
+                                       cmatricola[matricola] = c;
+
+                                       // corso per codice corso
+                                       corsi[codice] = c;
+
+                                       studente m {nnome,cognome,matricola,codice};
+
+//                                       studenti_2[studente].push_back(m);
+
+                               }
+
+
+
 
                 break;
             }
             case '2':
+                    for(auto x : cmatricola) cout<<x.first<<"       "<<x.second.cod<<"      " <<x.second.des<<endl;
+
 
                 break;
 
             case '3':
-
+                    for(auto x : corsi) cout<<x.first<<"       "<<x.second.cod<<"      " <<x.second.des<<endl;
                 break;
 
             case '4':

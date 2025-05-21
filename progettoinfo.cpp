@@ -8,11 +8,12 @@ void stampamenu() {
     cout << "* 2 - carica corsi di uno studente (matricola)  *\n";
     cout << "* 3 - carica corsi di uno studente (cognome)    *\n";
     cout << "* 4 - elenca studenti iscritti al corso         *\n";
-    cout << "* 5 - numero di studenti per corso              *\n";
-    cout << "* 6 - numero di studenti per materia            *\n";
-    cout << "* 7 - cerca materia per descrizione             *\n";
-    cout << "* 8 - inserisci nuovo studente                  *\n";
-    cout << "* 9 - salva i dati su file                      *\n";
+    cout << "* 5 - stampa dati di un esame di un corso       *\n";
+    cout << "* 6 - numero di studenti per corso              *\n";
+    cout << "* 7 - numero di studenti per materia            *\n";
+    cout << "* 8 - cerca materia per descrizione             *\n";
+    cout << "* 9 - inserisci nuovo studente                  *\n";
+    cout << "* 10 - salva i dati su file                      *\n";
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
@@ -44,7 +45,12 @@ int main() {
     bool finito;
     map<string,corso> cmatricola;
     map<string,corso> corsi;
-    map<string, vector<studente>  > studenti_2;
+
+    map<string, map<string,studente>> studenti_per_codice_corso;
+    map<string, map<string,materia>> materia_per_corso;
+    map<string, int> contastud;
+    map<string, int> contamat;
+    map<string, map<string,materia>> cercamatperdes;
     vector<corso> x;
     while (!finito) {
         stampamenu();
@@ -76,11 +82,18 @@ int main() {
                                        cmatricola[matricola] = c;
 
                                        // corso per codice corso
-                                       corsi[codice] = c;
+                                       //corsi[codice] = c;
+                                       corsi[cognome]= c;
 
                                        studente m {nnome,cognome,matricola,codice};
+                                       materia g {codicem,descrizionem,codice};
+                                        studenti_per_codice_corso[codice][matricola]=m;
+                                        materia_per_corso[codice][descrizionem]=g;
+                                        contastud[codice]++;
+                                        contamat[descrizionem]++;
+                                        cercamatperdes[descrizionem][codice]=g;
 
-//                                       studenti_2[studente].push_back(m);
+
 
                                }
 
@@ -99,24 +112,68 @@ int main() {
                     for(auto x : corsi) cout<<x.first<<"       "<<x.second.cod<<"      " <<x.second.des<<endl;
                 break;
 
-            case '4':
+            case '4':{
+
+                    for(auto x : studenti_per_codice_corso){
+
+                        for(auto y : x.second){
+                        cout<<y.second.cod<<"       "<<y.second.nome<<"      " <<y.second.cogn<<"      " <<y.second.matric<<endl;
+
+                    }
+                    }
 
                 break;
+                }
 
-            case '5':
+            case '5':{
+                cout<<"dammi il codice di un esame"<<endl;
+                string t;
+                cin>>t;
 
-                break;
+                    for(auto x : materia_per_corso){
+                        if(t==x.first){
+                        for(auto y : x.second){
+                        cout<<y.second.cod<<"       "<<y.second.codmat<<"      " <<y.second.desmat<<endl;
+                        }
+                        break;
+
+                    }
+                    }
+
+
+                }
 
             case '6':
+                cout<<"gli studenti per corso sono"<<endl;
+                for(auto x : contastud) cout<<x.first<<"       "<<x.second<<endl;
+
+
                 break;
 
             case '7':
+                cout<<"gli studenti per materia sono"<<endl;
+                for(auto x : contamat) cout<<x.first<<"       "<<x.second<<endl;
 
                 break;
 
-            case '8':
+            case '8':{
+                cout<<"dammi descrizione di una materia"<<endl;
+                cin.ignore();
+                string t;
+                getline(cin,t);
 
-                break;
+
+                    for(auto x :  cercamatperdes){
+                        if(t==x.first){
+                        for(auto y : x.second){
+                        cout<<y.second.desmat<<"       "<<y.second.codmat<<"      " <<y.second.cod<<endl;
+                        }
+                        break;
+
+                    }
+                    }
+                    }
+
 
             case '9':
 

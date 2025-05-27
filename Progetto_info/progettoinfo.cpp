@@ -1,7 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int R=10;
-const int C=30;
+
+struct studente
+{
+    string nome, cogn, matric, cod;
+};
+
+struct materia
+{
+    string codmat, desmat, cod;
+};
+
+struct corso
+{
+    string cod, des;
+};
+
+map<string, corso> corsoPerMatricola;
+map<string, vector<corso>> corsiPerCognome;
+map<string, map<string, studente>> studentiPerCorso;
+map<string, map<string, materia>> materiePerCorso;
+map<string, int> contaStudentiPerCorso;
+map<string, int> contaStudentiPerMateria;
+map<string, map<string, materia>> cercaMateriaPerDescrizione;
+
 void stampamenu()
 {
     cout << "*************************************************\n";
@@ -18,45 +40,12 @@ void stampamenu()
     cout << "* X - Esci                                      *\n";
     cout << "*************************************************\n";
 }
-struct studente
-{
-    string nome,cogn,matric,cod;
-
-
-
-};
-struct materia
-{
-    string codmat,desmat,cod;
-
-
-
-};
-struct corso
-{
-    string cod,des;
-
-
-
-};
-
-
-
 
 int main()
 {
-
     char ch;
-    bool finito;
-    map<string,corso> cmatricola;
-    map<string,corso> corsi;
+    bool finito = false;
 
-    map<string, map<string,studente>> studenti_per_codice_corso;
-    map<string, map<string,materia>> materia_per_corso;
-    map<string, int> contastud;
-    map<string, int> contamat;
-    map<string, map<string,materia>> cercamatperdes;
-    vector<corso> x;
     while (!finito)
     {
         stampamenu();
@@ -64,180 +53,170 @@ int main()
 
         switch (ch)
         {
-
         case '1':
         {
-            string labels, codice, descrizionec, codicem,descrizionem,matricola,cognome,nnome;
-            int i=0;
-            corso y;
             ifstream fin("corsi_studenti.csv");
-            ofstream fout("corsi_studenti.csv");
-            if(!fin) cout<<"file non trovato"<<endl;
-            getline(fin,labels);
-            cout<<labels<<endl;
-            while(!fin.eof())
+
+            string codCorso, descrCorso, codMat, descrMat, matricola, cognome, nome;
+
+            string labels;
+            getline(fin, labels);
+
+            while (!fin.eof())
             {
-                getline(fin,codice,',');
-                if(codice=="")break;
-                getline(fin,descrizionec,',');
-                getline(fin,codicem,',');
-                getline(fin,descrizionem,',');
-                getline(fin,matricola,',');
-                getline(fin,cognome,',');
-                getline(fin,nnome);
+                getline(fin, codCorso, ',');
+                getline(fin, descrCorso, ',');
+                getline(fin, codMat, ',');
+                getline(fin, descrMat, ',');
+                getline(fin, matricola, ',');
+                getline(fin, cognome, ',');
+                getline(fin, nome);
 
-                corso c {codice, descrizionec};
+                corso c{codCorso, descrCorso};
+                materia m{codMat, descrMat, codCorso};
+                studente s{nome, cognome, matricola, codCorso};
 
-                // corso per studente
-                cmatricola[matricola] = c;
-
-                // corso per codice corso
-                //corsi[codice] = c;
-                corsi[cognome]= c;
-
-                studente m {nnome,cognome,matricola,codice};
-                materia g {codicem,descrizionem,codice};
-                studenti_per_codice_corso[codice][matricola]=m;
-                materia_per_corso[codice][descrizionem]=g;
-                contastud[codice]++;
-                contamat[descrizionem]++;
-                cercamatperdes[descrizionem][codice]=g;
-
-
-
+                corsoPerMatricola[matricola] = c;
+                corsiPerCognome[cognome].push_back(c);
+                studentiPerCorso[codCorso][matricola] = s;
+                materiePerCorso[codCorso][descrMat] = m;
+                contaStudentiPerCorso[codCorso]++;
+                contaStudentiPerMateria[descrMat]++;
+                cercaMateriaPerDescrizione[descrMat][codCorso] = m;
             }
 
-
-
-
+            cout << "Dati caricati.\n";
             break;
         }
+
         case '2':
-            for(auto x : cmatricola) cout<<x.first<<"       "<<x.second.cod<<"      " <<x.second.des<<endl;
-
-
+        {
+            for (auto& x : corsoPerMatricola)
+                cout << x.first << "       " << x.second.cod << "      " << x.second.des << "\n";
             break;
+        }
 
         case '3':
-            for(auto x : corsi) cout<<x.first<<"       "<<x.second.cod<<"      " <<x.second.des<<endl;
+        {
+            for (auto& x : corsiPerCognome)
+            {
+                cout << x.first << ":\n";
+                for (auto& c : x.second)
+                    cout << "    " << c.cod << " - " << c.des << "\n";
+            }
             break;
+        }
 
         case '4':
         {
-
-            for(auto x : studenti_per_codice_corso)
+            for (auto& x : studentiPerCorso)
             {
-
-                for(auto y : x.second)
+                cout << "Corso: " << x.first << "\n";
+                for (auto& y : x.second)
                 {
-                    cout<<y.second.cod<<"       "<<y.second.nome<<"      " <<y.second.cogn<<"      " <<y.second.matric<<endl;
-
+                    const studente& s = y.second;
+                    cout << "    " << s.cod << "  " << s.nome << "  " << s.cogn << "  " << s.matric << "\n";
                 }
             }
-
             break;
         }
 
         case '5':
         {
-            cout<<"dammi il codice di un esame"<<endl;
+            cout << "Dammi il codice di un corso: ";
             string t;
-            cin>>t;
-
-            for(auto x : materia_per_corso)
+            cin >> t;
+            auto it = materiePerCorso.find(t);
+            if (it != materiePerCorso.end())
             {
-                if(t==x.first)
+                cout << "Materie per corso " << t << ":\n";
+                for (auto& y : it->second)
                 {
-                    for(auto y : x.second)
-                    {
-                        cout<<y.second.cod<<"       "<<y.second.codmat<<"      " <<y.second.desmat<<endl;
-                    }
-                    break;
-
+                    const materia& m = y.second;
+                    cout << "    " << m.cod << "   " << m.codmat << "   " << m.desmat << "\n";
                 }
             }
-
-
+            else
+            {
+                cout << "Corso non trovato.\n";
+            }
+            break;
         }
 
         case '6':
-            cout<<"gli studenti per corso sono"<<endl;
-            for(auto x : contastud) cout<<x.first<<"       "<<x.second<<endl;
-
-
+        {
+            for (auto& x : contaStudentiPerCorso)
+                cout << x.first << "       " << x.second << "\n";
             break;
+        }
 
         case '7':
-            cout<<"gli studenti per materia sono"<<endl;
-            for(auto x : contamat) cout<<x.first<<"       "<<x.second<<endl;
-
+        {
+            for (auto& x : contaStudentiPerMateria)
+                cout << x.first << "       " << x.second << "\n";
             break;
+        }
 
         case '8':
         {
-            cout<<"dammi descrizione di una materia"<<endl;
+            cout << "Dammi descrizione di una materia: ";
             cin.ignore();
             string t;
-            getline(cin,t);
-
-
-            for(auto x :  cercamatperdes)
+            getline(cin, t);
+            auto it = cercaMateriaPerDescrizione.find(t);
+            if (it != cercaMateriaPerDescrizione.end())
             {
-                if(t==x.first)
+                cout << "Materie con descrizione \"" << t << "\":\n";
+                for (auto& y : it->second)
                 {
-                    for(auto y : x.second)
-                    {
-                        cout<<y.second.desmat<<"       "<<y.second.codmat<<"      " <<y.second.cod<<endl;
-                    }
-                    break;
-
+                    const materia& m = y.second;
+                    cout << "    " << m.desmat << "       " << m.codmat << "      " << m.cod << "\n";
                 }
             }
+            else
+            {
+                cout << "Materia non trovata.\n";
+            }
+            break;
         }
 
-
         case '9':
-            {
+        {
+            ofstream fout("corsi_studenti.csv", ios::app);
 
+            string codice, descrizionec, codicem, descrizionem, matricola, cognome, nnome;
 
-             string  codice, descrizionec, codicem,descrizionem,matricola,cognome,nnome;
+            cout << "Inserisci il codice del corso: ";
+            cin >> codice;
+            cin.ignore();
+            cout << "Inserisci descrizione del corso: ";
+            getline(cin, descrizionec);
+            cout << "Inserisci il codice materia: ";
+            getline(cin, codicem);
+            cout << "Inserisci descrizione materia: ";
+            getline(cin, descrizionem);
+            cout << "Inserisci matricola: ";
+            getline(cin, matricola);
+            cout << "Inserisci cognome: ";
+            getline(cin, cognome);
+            cout << "Inserisci il nome: ";
+            getline(cin, nnome);
 
-            ofstream fout("corsi_studenti.csv",ios::app);
-            cout<<"inserisci il codice del corso"<<endl;
-            cin>>codice;
-            cout<<"inserisci descrizione del corso"<<endl;
-            cin>>descrizionec;
-            cout<<"inserisci il codice materia"<<endl;
-            cin>>codicem;
-            cout<<"inserisci descrizione materia"<<endl;
-            cin>>descrizionem;
-            getline(cin,descrizionem);
-            cout<<"inserisci matricola"<<endl;
-            cin>>matricola;
-            cout<<"inserisci cognome"<<endl;
-            cin>>cognome;
-            cout<<"inserisci il nome"<<endl;
-            cin>>nnome;
-            fout<<endl;
-            fout<<codice<<',';
-            fout<<descrizionec<<',';
-            fout<<codicem<<',';
-            fout<<descrizionem<<',';
-            fout<<matricola<<',';
-            fout<<cognome<<',';
-            fout<<nnome;
+            fout << codice << ',' << descrizionec << ',' << codicem << ',' << descrizionem << ','
+                 << matricola << ',' << cognome << ',' << nnome << '\n';
+
+            cout << "Studente aggiunto.\n";
             break;
-            }
+        }
 
         case 'X':
+        case 'x':
             finito = true;
             break;
 
         default:
             cout << "Opzione non valida\n";
-
         }
-
     }
 
     return 0;

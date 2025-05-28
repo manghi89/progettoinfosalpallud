@@ -199,33 +199,33 @@ int main()
             {
 
 
-             string  codice, descrizionec, codicem,descrizionem,matricola,cognome,nnome;
-
-            ofstream fout("corsi_studenti.csv",ios::app);
-            cout<<"inserisci il codice del corso"<<endl;
-            cin>>codice;
-            cout<<"inserisci descrizione del corso"<<endl;
-            cin>>descrizionec;
-            cout<<"inserisci il codice materia"<<endl;
-            cin>>codicem;
-            cout<<"inserisci descrizione materia"<<endl;
-            cin>>descrizionem;
-            getline(cin,descrizionem);
-            cout<<"inserisci matricola"<<endl;
-            cin>>matricola;
-            cout<<"inserisci cognome"<<endl;
-            cin>>cognome;
-            cout<<"inserisci il nome"<<endl;
-            cin>>nnome;
-            fout<<endl;
-            fout<<codice<<',';
-            fout<<descrizionec<<',';
-            fout<<codicem<<',';
-            fout<<descrizionem<<',';
-            fout<<matricola<<',';
-            fout<<cognome<<',';
-            fout<<nnome;
-            break;
+                        string  codice, descrizionec, codicem,descrizionem,matricola,cognome,nnome;
+            
+                        ofstream fout("corsi_studenti.csv",ios::app);
+                        cout<<"inserisci il codice del corso"<<endl;
+                        cin>>codice;
+                        cout<<"inserisci descrizione del corso"<<endl;
+                        cin>>descrizionec;
+                        cout<<"inserisci il codice materia"<<endl;
+                        cin>>codicem;
+                        cout<<"inserisci descrizione materia"<<endl;
+                        cin>>descrizionem;
+                        getline(cin,descrizionem);
+                        cout<<"inserisci matricola"<<endl;
+                        cin>>matricola;
+                        cout<<"inserisci cognome"<<endl;
+                        cin>>cognome;
+                        cout<<"inserisci il nome"<<endl;
+                        cin>>nnome;
+                        fout<<endl;
+                        fout<<codice<<',';
+                        fout<<descrizionec<<',';
+                        fout<<codicem<<',';
+                        fout<<descrizionem<<',';
+                        fout<<matricola<<',';
+                        fout<<cognome<<',';
+                        fout<<nnome;
+                        break;
             }
 
         case 'X':

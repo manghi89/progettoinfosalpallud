@@ -71,10 +71,10 @@ int main()
             int i=0;
             corso y;
             ifstream fin("corsi_studenti.csv");
-            ofstream fout("corsi_studenti.csv");
+            
             if(!fin) cout<<"file non trovato"<<endl;
             getline(fin,labels);
-            cout<<labels<<endl;
+            
             while(!fin.eof())
             {
                 getline(fin,codice,',');
